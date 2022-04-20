@@ -46,7 +46,7 @@ public class SimpleCalculatorTest {
 
     @Test
     @DisplayName("Get Random Integer between two boundaries")
-    void testGetRandomIntegeBetweenTwoBoundaries() {
+    void testGetRandomIntegerBetweenTwoBoundaries() {
 
         int lowerBound = 10;
         int upperBound = 100;
