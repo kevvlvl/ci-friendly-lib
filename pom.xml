@@ -52,6 +52,7 @@
                 <version>${maven-surefire-plugin.version}</version>
             </plugin>
 
+            <!-- Flattened-pom required to ensure ci-friendly lib usable by others by resolving versions/properties -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>

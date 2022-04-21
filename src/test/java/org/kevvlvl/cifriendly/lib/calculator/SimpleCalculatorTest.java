@@ -1,5 +1,7 @@
 package org.kevvlvl.cifriendly.lib.calculator;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +11,12 @@ import static org.assertj.core.api.Assertions.*;
 
 public class SimpleCalculatorTest {
 
-    private final ICalculator simpleCalculator = new SimpleCalculator(new Random());
+    private ICalculator simpleCalculator;
+
+    @BeforeEach
+    void setup() {
+        simpleCalculator = new SimpleCalculator(new Random());
+    }
 
     @Test
     @DisplayName("Addition and expect correct result")
