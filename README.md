@@ -8,6 +8,8 @@ The simple calculator library is intended to be built and released using ci/pipe
 
 The Maven CI-Friendly approach is to delegate versioning and releasing to the CI/orchestrator using parameters set in the version property. This approach is not compatible with the maven release plugin.
 
+Semver information is saved and tracked using git tags.
+
 Build the artifact and package it as a snapshot as defined by default in the pom.xml
 ```shell
 $ ./mvnw clean package
