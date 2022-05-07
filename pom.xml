@@ -14,7 +14,7 @@
 
         <!-- Maven CI Friendly props -->
         <revision>1.0.0</revision>
-        <changelist>-SNAPSHOT</changelist>
+        <changelist>-RC</changelist>
         <sha1/>
 
         <junit-jupiter-engine.version>5.8.2</junit-jupiter-engine.version>

@@ -1,0 +1,50 @@
+name: Build an RC artifact
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Current Date
+        id: build-date
+        run: echo "::set-output name=BUILD_DATE::$(date +'%Y%m%d%H%M')"
+
+      - name: Set Current Short Commit ID
+        id: build-id
+        run: echo "::set-output name=COMMIT_ID::$(git rev-parse --short $GITHUB_SHA)"
+
+      - name: Determine RC version
+        id: rc
+        run: |
+          # Gather latest RC git tag
+          latestGitTag=$( git tag --sort=-taggerdate -l rc_\* | head -n1)
+          echo "::set-output name=RC_VER::$(git rev-parse --short $GITHUB_SHA)"
+          
+          currentCommitIdTagged=$(git describe --exact-match $GITHUB_SHA)
+          
+          # Ensure current git commit is tagged with RC
+          if [ "$currentCommitIdTagged" == "" ]; then
+            git tag -a "rc_$latestGitTag" -m "rc version"
+            git push origin "rc_$latestGitTag"
+          fi
+
+      - name: Build java
+        run: ./mvnw clean package -Drevision=$latestGitTag -Dchangelist=-RC-${{ steps.build-date.outputs.BUILD_DATE }}-${{ steps.build-id.outputs.COMMIT_ID }}
+
+      - name: Set JAR name
+        id: build-jar
+        run: |
+          # Determine JAR name
+          jarName=$(ls target | grep .jar)
+          echo "::set-output name=JAR_NAME::$jarName"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: ci-friendly-lib artifact
+          path: target/RC-${{ steps.build-jar.outputs.JAR_NAME }}
