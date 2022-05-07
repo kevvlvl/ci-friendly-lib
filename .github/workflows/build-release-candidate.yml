@@ -12,11 +12,17 @@ jobs:
 
       - name: Set Current Date
         id: build-date
-        run: echo "::set-output name=BUILD_DATE::$(date +'%Y%m%d%H%M')"
+        run: |
+          buildDateValue=$(date +'%Y%m%d%H%M')
+          echo "Build Date = $buildDateValue"
+          echo "::set-output name=BUILD_DATE::$buildDateValue"
 
       - name: Set Current Short Commit ID
         id: build-id
-        run: echo "::set-output name=COMMIT_ID::$(git rev-parse --short $GITHUB_SHA)"
+        run: |
+          buildCommitId=$(git rev-parse --short $GITHUB_SHA)
+          echo "Short Commit ID = $buildCommitId"
+          echo "::set-output name=COMMIT_ID::$buildCommitId"
 
       - name: Determine RC version
         id: rc
