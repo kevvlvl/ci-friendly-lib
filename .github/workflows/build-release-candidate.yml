@@ -41,7 +41,7 @@ jobs:
           git config --global user.email "github-action-${{ github.actor }}@noreply.github.com"
           git config --global user.name "${{ github.actor }}"
         
-          git tag -a "$latestGitTag" -m "rc version"
+          git tag -fa "$latestGitTag" -m "rc version"
           git push origin "$latestGitTag"
 
       - name: Build java
