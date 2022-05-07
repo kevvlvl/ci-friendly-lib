@@ -38,6 +38,9 @@ jobs:
           
           gitTagValue="rc_$latestGitTag"
           echo "Tagging current Git Commit with tag $gitTagValue"
+          
+          git config --global user.email "github-action-${{ github.actor }}@noreply.github.com"
+          git config --global user.name "${{ github.actor }}"
         
           git tag -a "$gitTagValue" -m "rc version"
           git push origin "$gitTagValue"
