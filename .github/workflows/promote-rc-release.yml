@@ -8,13 +8,14 @@ on:
         required: true
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     steps:
 
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: dawidd6/action-download-artifact@v2
         with:
+          workflow: build-release-candidate.yml
           name: ${{ github.event.inputs.artifact_name }}
 
       - name: Upload artifact
