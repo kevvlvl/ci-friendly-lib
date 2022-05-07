@@ -32,7 +32,9 @@ jobs:
           # Gather latest RC git tag
           latestGitTag=$(git tag --sort=-taggerdate -l rc_\* | head -n1)
           echo "Latest Git Tag = $latestGitTag"
-          echo "::set-output name=RC_VER::$(git rev-parse --short $GITHUB_SHA)"
+          
+          latestGitTagValue=$(latestGitTag | awk -F'_' '{print $2}')
+          echo "::set-output name=RC_VER::$latestGitTagValue"
           
           # Ensure this new git commit is tagged with RC
           
@@ -41,13 +43,13 @@ jobs:
           git config --global user.email "github-action-${{ github.actor }}@noreply.github.com"
           git config --global user.name "${{ github.actor }}"
         
-          newGitTagRc="$latestGitTag_${{ steps.build-id.outputs.COMMIT_ID }}"
+          newGitTagRc="${latestGitTag}_${{ steps.build-id.outputs.COMMIT_ID }}"
         
           git tag -a "$newGitTagRc" -m "rc version"
           git push origin "$newGitTagRc"
 
       - name: Build java
-        run: ./mvnw clean package -Drevision=$latestGitTag -Dchangelist=-RC-${{ steps.build-date.outputs.BUILD_DATE }}-${{ steps.build-id.outputs.COMMIT_ID }}
+        run: ./mvnw clean package -Drevision=${{ steps.rc.outputs.RC_VER }} -Dchangelist=-RC-${{ steps.build-date.outputs.BUILD_DATE }}-${{ steps.build-id.outputs.COMMIT_ID }}
 
       - name: Set JAR name
         id: build-jar
