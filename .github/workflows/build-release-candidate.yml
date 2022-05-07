@@ -35,18 +35,6 @@ jobs:
           
           latestGitTagValue=$(latestGitTag | awk -F'_' '{print $2}')
           echo "::set-output name=RC_VER::$latestGitTagValue"
-          
-          # Ensure this new git commit is tagged with RC
-          
-          echo "Tagging current Git Commit with tag $latestGitTag"
-          
-          git config --global user.email "github-action-${{ github.actor }}@noreply.github.com"
-          git config --global user.name "${{ github.actor }}"
-        
-          newGitTagRc="${latestGitTag}_${{ steps.build-id.outputs.COMMIT_ID }}"
-        
-          git tag -a "$newGitTagRc" -m "rc version"
-          git push origin "$newGitTagRc"
 
       - name: Build java
         run: ./mvnw clean package -Drevision=${{ steps.rc.outputs.RC_VER }} -Dchangelist=-RC-${{ steps.build-date.outputs.BUILD_DATE }}-${{ steps.build-id.outputs.COMMIT_ID }}
