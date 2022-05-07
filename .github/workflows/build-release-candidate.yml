@@ -56,5 +56,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@main
         with:
-          name: ci-friendly-lib artifact
+          name: ${{ steps.build-jar.outputs.JAR_NAME }}
           path: target/${{ steps.build-jar.outputs.JAR_NAME }}
