@@ -36,6 +36,12 @@ jobs:
           latestGitTagValue=$(latestGitTag | awk -F'_' '{print $2}')
           echo "::set-output name=RC_VER::$latestGitTagValue"
 
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+
       - name: Build java
         run: ./mvnw clean package -Drevision=${{ steps.rc.outputs.RC_VER }} -Dchangelist=-RC-${{ steps.build-date.outputs.BUILD_DATE }}-${{ steps.build-id.outputs.COMMIT_ID }}
 
