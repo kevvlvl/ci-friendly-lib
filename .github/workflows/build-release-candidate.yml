@@ -41,8 +41,10 @@ jobs:
           git config --global user.email "github-action-${{ github.actor }}@noreply.github.com"
           git config --global user.name "${{ github.actor }}"
         
-          git tag -fa "$latestGitTag" -m "rc version"
-          git push origin main "$latestGitTag"
+          newGitTagRc="$latestGitTag_${{ steps.build-id.outputs.COMMIT_ID }}"
+        
+          git tag -a "$newGitTagRc" -m "rc version"
+          git push origin "$newGitTagRc"
 
       - name: Build java
         run: ./mvnw clean package -Drevision=$latestGitTag -Dchangelist=-RC-${{ steps.build-date.outputs.BUILD_DATE }}-${{ steps.build-id.outputs.COMMIT_ID }}
