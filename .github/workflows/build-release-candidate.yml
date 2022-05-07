@@ -29,7 +29,7 @@ jobs:
         run: |
           # Gather latest RC git tag
           latestGitTag=$( git tag --sort=-taggerdate -l rc_\* | head -n1)
-          echo "Latest Git Tag = latestGitTag"
+          echo "Latest Git Tag = $latestGitTag"
           echo "::set-output name=RC_VER::$(git rev-parse --short $GITHUB_SHA)"
           
           currentCommitIdTagged=$(git describe --exact-match $GITHUB_SHA)
