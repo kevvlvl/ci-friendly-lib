@@ -42,7 +42,7 @@ jobs:
           git config --global user.name "${{ github.actor }}"
         
           git tag -fa "$latestGitTag" -m "rc version"
-          git push origin "$latestGitTag"
+          git push origin main "$latestGitTag"
 
       - name: Build java
         run: ./mvnw clean package -Drevision=$latestGitTag -Dchangelist=-RC-${{ steps.build-date.outputs.BUILD_DATE }}-${{ steps.build-id.outputs.COMMIT_ID }}
