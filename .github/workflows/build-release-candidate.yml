@@ -48,12 +48,13 @@ jobs:
       - name: Set JAR name
         id: build-jar
         run: |
-          # Determine JAR name
           jarName=$(ls target | grep .jar)
+          
+          echo "JAR found = $jarName"
           echo "::set-output name=JAR_NAME::$jarName"
 
       - name: Upload artifact
         uses: actions/upload-artifact@main
         with:
           name: ci-friendly-lib artifact
-          path: target/RC-${{ steps.build-jar.outputs.JAR_NAME }}
+          path: target/${{ steps.build-jar.outputs.JAR_NAME }}
