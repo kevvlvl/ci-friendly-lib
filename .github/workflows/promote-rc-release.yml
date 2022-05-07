@@ -2,9 +2,10 @@ name: Promote RC to Release
 
 on:
   workflow_dispatch:
-    artifact_name:
-      description: Name of the artifact to promote
-      required: true
+    inputs:
+      artifact_name:
+        description: Name of the artifact to promote
+        required: true
 
 jobs:
   build:
