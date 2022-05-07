@@ -11,6 +11,28 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config --global user.name "Github Actions"
+          git config --global user.email "kevvlvl@users.noreply.github.com"
+
+      - name: Get latest RC"
+        run: |
+          echo "TODO: get latest RC"
+
+      - name: Tag a release
+        run: |
+          echo "Tag a release"
+          #git tag -a "release_RC_VERSION" -m "release version"
+          #git push origin main release_RC_VERSION
+
+      - name: Increment RC
+        run: |
+          echo "Increment RC (minor semver) to next version"
 
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
