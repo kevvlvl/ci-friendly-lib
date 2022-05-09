@@ -41,6 +41,6 @@ jobs:
 
           nextRcVersion="rc_${{ steps.rc.outputs.major }}.$bumpedMinor.${{ steps.rc.outputs.patch }}"
 
-          echo "RC to be tagged [$nextRcVersion]
+          echo "RC to be tagged [$nextRcVersion]"
           git tag -a $nextRcVersion -m "rc ver"
-          git push origin main $nextRcVersion
+          git push origin main $nextRcVersion"
