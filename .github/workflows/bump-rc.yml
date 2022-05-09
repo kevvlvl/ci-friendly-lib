@@ -43,4 +43,4 @@ jobs:
 
           echo "RC to be tagged [$nextRcVersion]"
           git tag -a $nextRcVersion -m "rc ver"
-          git push origin main $nextRcVersion"
+          git push origin main $nextRcVersion
