@@ -3,7 +3,7 @@ name: Bump RC
 on: workflow_dispatch
 
 jobs:
-  release:
+  bump-minor:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -30,7 +30,7 @@ jobs:
           echo "::set-output name=minor::$minor"
           echo "::set-output name=patch::$patch"
 
-          echo "Latest RC Version major [$major] minor [$minor] patch [$patch]
+          echo "Latest RC Version major [$major] minor [$minor] patch [$patch]"
 
       - name: Increment RC
         run: |
