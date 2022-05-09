@@ -43,6 +43,6 @@ jobs:
           
           releaseVersion="${{ github.event.inputs.rc_version }}"
           
-          echo "Release to be tagged [$releaseVersion]
+          echo "Release to be tagged [$releaseVersion]"
           git tag -a $releaseVersion -m "release ver"
           git push origin main $releaseVersion
