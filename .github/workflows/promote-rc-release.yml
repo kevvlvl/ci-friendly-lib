@@ -3,6 +3,9 @@ name: Promote RC to Release
 on:
   workflow_dispatch:
     inputs:
+      rc_version:
+        description: RC version
+        required: true
       artifact_name:
         description: Name of the artifact to promote
         required: true
@@ -14,25 +17,6 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
-      - name: Configure git
-        run: |
-          git config --global user.name "Github Actions"
-          git config --global user.email "kevvlvl@users.noreply.github.com"
-
-      - name: Get latest RC"
-        run: |
-          echo "TODO: get latest RC"
-
-      - name: Tag a release
-        run: |
-          echo "Tag a release"
-          #git tag -a "release_RC_VERSION" -m "release version"
-          #git push origin main release_RC_VERSION
-
-      - name: Increment RC
-        run: |
-          echo "Increment RC (minor semver) to next version"
 
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
@@ -46,3 +30,50 @@ jobs:
         with:
           name: release_${{ github.event.inputs.artifact_name }}
           path: ${{ github.event.inputs.artifact_name }}
+
+      - name: Configure git
+        run: |
+          git config --global user.name "Github Actions"
+          git config --global user.email "kevvlvl@users.noreply.github.com"
+
+#      - name: Get latest RC"
+#        id: rc
+#        run: |
+#          latestGitTag=$(git tag --sort=-taggerdate -l rc_\* | head -n1)
+#          echo "Latest Git Tag = $latestGitTag"
+#
+#          latestRcVersion=$(echo $latestGitTag | grep -Eo '[0-9]+.[0-9]+.[0-9]+')
+#          major=$(echo $latestRcVersion | grep -Eo '[0-9]+' | sed -n 1p)
+#          minor=$(echo $latestRcVersion | grep -Eo '[0-9]+' | sed -n 2p)
+#          patch=$(echo $latestRcVersion | grep -Eo '[0-9]+' | sed -n 3p)
+#
+#          echo "::set-output name=major::$major"
+#          echo "::set-output name=minor::$minor"
+#          echo "::set-output name=patch::$patch"
+#
+#          echo "Latest RC Version major [$major] minor [$minor] patch [$patch]
+
+      - name: Tag a release
+        run: |
+          
+          echo "Tag a release"
+          
+#          releaseVersion="release_${{ steps.rc.outputs.major }}.${{ steps.rc.outputs.minor }}.${{ steps.rc.outputs.patch }}"
+          releaseVersion="${{ github.event.inputs.rc_version }}"
+          
+          echo "Release to be tagged [$releaseVersion]
+          git tag -a $releaseVersion -m "release ver"
+          git push origin main $releaseVersion
+
+#      - name: Increment RC
+#        run: |
+#          echo "Increment RC (minor semver) to next version"
+#
+#          bumpedMinor=${{ steps.rc.outputs.minor }}
+#          (( ++bumpedMinor ))
+#
+#          nextRcVersion="rc_${{ steps.rc.outputs.major }}.$bumpedMinor.${{ steps.rc.outputs.patch }}"
+#
+#          echo "RC to be tagged [$nextRcVersion]
+#          git tag -a $nextRcVersion -m "rc ver"
+#          git push origin main $nextRcVersion
